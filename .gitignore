@@ -1,0 +1,68 @@
+# Root .gitignore for Flutter / Android / iOS / Web Multi-project repository
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+**/.idea/
+**/*.iml
+**/*.ipr
+**/*.iws
+
+# VS Code related
+.vscode/
+**/.vscode/
+
+# Flutter / Dart / Pub related
+**/.dart_tool/
+**/.packages
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.pub-cache/
+**/.pub/
+**/build/
+**/coverage/
+**/doc/api/
+
+# Android-specific build and IDE outputs
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/.gradle/
+**/local.properties
+**/*.keystore
+**/*.jks
+
+# iOS-specific build outputs and dependencies
+**/ios/Flutter/.last_build_id
+**/ios/.symlinks/
+**/ios/Pods/
+**/ios/DerivedData/
+**/*.moved-aside
+
+# Web build outputs
+**/build/web/
+
+# macOS / Windows / Linux desktop build outputs
+**/build/macos/
+**/build/windows/
+**/build/linux/
+
+# Symbolication and Obfuscation related
+**/app.*.symbols
+**/app.*.map.json
