@@ -4,6 +4,14 @@ A modern, highly-polished Flutter application illustrating a product catalog usi
 
 ---
 
+## ตัวอย่างหน้าจอแอปพลิเคชัน (Application Screenshots)
+
+|                  หน้าหลัก (Home Screen)                   |              หน้าตะกร้าสินค้า (Cart Screen)               |
+| :-------------------------------------------------------: | :-------------------------------------------------------: |
+| <img src="images/home.png" width="300" alt="Home Screen"> | <img src="images/cart.png" width="300" alt="Cart Screen"> |
+
+---
+
 ## สารบัญ / Table of Contents
 
 1. [การสร้าง Class ใน Flutter (Dart)](#1-การสร้าง-class-ใน-flutter-dart)
@@ -117,7 +125,7 @@ class Product {
   {
     "id": "PROD-001",
     "name": "Wireless Headphones",
-    "price": 1890.00,
+    "price": 1890.0,
     "imageUrl": "assets/images/prod_001.jpg",
     "rating": 4
   }
@@ -125,9 +133,11 @@ class Product {
 ```
 
 ### การทำระบบแปลภาษา (Centralized Translation)
+
 มีคลาส `AppStrings` ใน `lib/constants/app_strings.dart` คอยดูแลเก็บรวบรวมข้อความภาษาไทยทั้งหมดที่แสดงในแอปพลิเคชัน เพื่อให้ง่ายต่อการปรับเปลี่ยนข้อความหรือแปลภาษาในอนาคต
 
 ### การทำ Query & Mutation ด้วย Controller & Repository
+
 เพื่อจัดการสถานะข้อมูลสินค้าในหน่วยความจำและดึงจากไฟล์จำลอง:
 
 1. **Query (ดึงข้อมูลอย่างเป็นสัดส่วนตามคะแนน)**:
