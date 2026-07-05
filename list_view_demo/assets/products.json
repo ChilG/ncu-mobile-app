@@ -1,0 +1,149 @@
+[
+  {
+    "id": "PROD-001",
+    "name": "Wireless Headphones",
+    "price": 1890.00,
+    "imageUrl": "assets/images/prod_001.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-002",
+    "name": "Smart Watch Series X",
+    "price": 4500.00,
+    "imageUrl": "assets/images/prod_002.jpg",
+    "rating": 5
+  },
+  {
+    "id": "PROD-003",
+    "name": "Premium Leather Wallet",
+    "price": 990.00,
+    "imageUrl": "assets/images/prod_003.jpg",
+    "rating": 3
+  },
+  {
+    "id": "PROD-004",
+    "name": "Mechanical Keyboard",
+    "price": 2490.00,
+    "imageUrl": "assets/images/prod_004.jpg",
+    "rating": 5
+  },
+  {
+    "id": "PROD-005",
+    "name": "Minimalist Coffee Mug",
+    "price": 350.00,
+    "imageUrl": "assets/images/prod_005.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-006",
+    "name": "Ergonomic Desk Chair",
+    "price": 5900.00,
+    "imageUrl": "assets/images/prod_006.jpg",
+    "rating": 5
+  },
+  {
+    "id": "PROD-007",
+    "name": "Portable SSD 1TB",
+    "price": 3200.00,
+    "imageUrl": "assets/images/prod_007.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-008",
+    "name": "USB-C Multiport Hub",
+    "price": 1290.00,
+    "imageUrl": "assets/images/prod_008.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-009",
+    "name": "Smart LED Light Bulb",
+    "price": 450.00,
+    "imageUrl": "assets/images/prod_009.jpg",
+    "rating": 3
+  },
+  {
+    "id": "PROD-010",
+    "name": "Compact Desk Organizer",
+    "price": 790.00,
+    "imageUrl": "assets/images/prod_010.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-011",
+    "name": "Bluetooth Speaker Mini",
+    "price": 1590.00,
+    "imageUrl": "assets/images/prod_011.jpg",
+    "rating": 5
+  },
+  {
+    "id": "PROD-012",
+    "name": "Wireless Gaming Mouse",
+    "price": 2190.00,
+    "imageUrl": "assets/images/prod_012.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-013",
+    "name": "Aluminium Laptop Stand",
+    "price": 890.00,
+    "imageUrl": "assets/images/prod_013.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-014",
+    "name": "Leather Notebook Journal",
+    "price": 650.00,
+    "imageUrl": "assets/images/prod_014.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-015",
+    "name": "Ceramic Plant Pot",
+    "price": 290.00,
+    "imageUrl": "assets/images/prod_015.jpg",
+    "rating": 3
+  },
+  {
+    "id": "PROD-016",
+    "name": "Desk Pad Protective Mat",
+    "price": 590.00,
+    "imageUrl": "assets/images/prod_016.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-017",
+    "name": "Stainless Water Bottle",
+    "price": 750.00,
+    "imageUrl": "assets/images/prod_017.jpg",
+    "rating": 5
+  },
+  {
+    "id": "PROD-018",
+    "name": "Noise Cancelling Earbuds",
+    "price": 3890.00,
+    "imageUrl": "assets/images/prod_018.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-019",
+    "name": "Wireless Charging Pad",
+    "price": 990.00,
+    "imageUrl": "assets/images/prod_019.jpg",
+    "rating": 4
+  },
+  {
+    "id": "PROD-020",
+    "name": "Premium Fountain Pen",
+    "price": 1450.00,
+    "imageUrl": "assets/images/prod_020.jpg",
+    "rating": 5
+  },
+  {
+    "id": "PROD-021",
+    "name": "Desk Lamp with Wireless Charger",
+    "price": 1990.00,
+    "imageUrl": "assets/images/prod_021.jpg",
+    "rating": 4
+  }
+]
