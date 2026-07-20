@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "181150778434",
+    "project_id": "prepbite-app-2026",
+    "storage_bucket": "prepbite-app-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181150778434:android:748b49d063c56aab2f59db",
+        "android_client_info": {
+          "package_name": "com.example.prep_bite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-W7i9X0y-4gbpnrRsmyVc1dBXirqZ2_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

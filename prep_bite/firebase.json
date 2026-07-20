@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "prepbite-app-2026",
+          "appId": "1:181150778434:android:748b49d063c56aab2f59db",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "prepbite-app-2026",
+          "appId": "1:181150778434:ios:14b7f39efd45f5532f59db",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "prepbite-app-2026",
+          "configurations": {
+            "android": "1:181150778434:android:748b49d063c56aab2f59db",
+            "ios": "1:181150778434:ios:14b7f39efd45f5532f59db"
+          }
+        }
+      }
+    }
+  }
+}
