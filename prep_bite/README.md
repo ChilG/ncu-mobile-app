@@ -20,6 +20,228 @@
 
 ---
 
+## เอกสารโครงการและการออกแบบ (Project Designs & Schemas)
+
+### 1. ลิงก์ออกแบบ Figma (Figma Design Link)
+สามารถดูรายละเอียดการออกแบบหน้าจอ (UI/UX Design) ได้ที่:
+👉 [Figma - PrepBite Design](https://www.figma.com/design/Tr3TDg7ISmkVho6TsN2DX0/prep_bite?node-id=0-1&t=fhF9Xu94EsePhNWk-1)
+
+---
+
+### 2. Class Diagram
+Class Diagram แสดงความสัมพันธ์ระหว่าง Data Models และ Services ของแอปพลิเคชัน PrepBite:
+
+```mermaid
+classDiagram
+    %% Relationships
+    RecipeModel "1" *-- "many" IngredientModel : contains
+    RecipeService ..> RecipeModel : manages
+    FavoriteService ..> RecipeModel : queries/updates
+    ChecklistService ..> IngredientModel : saves/tracks
+    AuthService ..> UserProfileModel : manages
+
+    %% Models
+    class RecipeModel {
+        +String id
+        +String title
+        +String description
+        +String imageUrl
+        +String category
+        +int prepTime
+        +int cookingTime
+        +int servings
+        +String difficulty
+        +bool isRecommended
+        +List~IngredientModel~ ingredients
+        +List~String~ steps
+        +String createdBy
+        +DateTime? createdAt
+        +RecipeModel(...)
+        +fromMap(Map map, String docId)$ RecipeModel
+        +toMap() Map~String, dynamic~
+        +copyWith(...) RecipeModel
+    }
+
+    class IngredientModel {
+        +String name
+        +String amount
+        +String preparation
+        +bool isChecked
+        +IngredientModel(...)
+        +fromMap(Map map)$ IngredientModel
+        +toMap() Map~String, dynamic~
+        +copyWith(...) IngredientModel
+    }
+
+    class UserProfileModel {
+        +String uid
+        +String email
+        +String displayName
+        +DateTime? createdAt
+        +UserProfileModel(...)
+        +fromMap(Map map, String uid)$ UserProfileModel
+        +toMap() Map~String, dynamic~
+    }
+
+    %% Services
+    class AuthService {
+        -_auth FirebaseAuth
+        -_firestore FirebaseFirestore
+        +currentUser User?
+        +authStateChanges Stream~User?~
+        +signIn(String email, String password) Future~UserCredential~
+        +register(String email, String password, String displayName) Future~UserCredential~
+        +signOut() Future~void~
+        +getUserProfile(String uid) Future~UserProfileModel?~
+    }
+
+    class RecipeService {
+        -_firestore FirebaseFirestore
+        -_recipesRef CollectionReference
+        +getRecipes() Stream~List~RecipeModel~~
+        +getRecommendedRecipes() Stream~List~RecipeModel~~
+        +getRecipeById(String recipeId) Stream~RecipeModel?~
+        +addRecipe(RecipeModel recipe) Future~DocumentReference~
+        +updateRecipe(RecipeModel recipe) Future~void~
+        +deleteRecipe(String recipeId) Future~void~
+        +getRecipesByUser(String userId) Stream~List~RecipeModel~~
+        +seedSampleRecipes(String currentUserId, bool force) Future~void~
+    }
+
+    class FavoriteService {
+        -_firestore FirebaseFirestore
+        -_getFavoriteRef(String userId) CollectionReference
+        +addFavorite(String userId, String recipeId) Future~void~
+        +removeFavorite(String userId, String recipeId) Future~void~
+        +isFavorite(String userId, String recipeId) Stream~bool~
+        +getFavoriteRecipeIds(String userId) Stream~List~String~~
+        +getFavoriteRecipes(String userId) Stream~List~RecipeModel~~
+        +getFavoriteCount(String userId) Future~int~
+    }
+
+    class ChecklistService {
+        -_firestore FirebaseFirestore
+        -_getChecklistDoc(String userId, String recipeId) DocumentReference
+        +saveChecklist(String userId, String recipeId, List~IngredientModel~ ingredients) Future~void~
+        +getChecklistStream(String userId, String recipeId) Stream~List~IngredientModel~?~
+        +resetChecklist(String userId, String recipeId, List~IngredientModel~ defaultIngredients) Future~void~
+        +updateIngredientStatus(String userId, String recipeId, List~IngredientModel~ updatedIngredients) Future~void~
+    }
+
+    class StorageService {
+        -_storage FirebaseStorage
+        +uploadRecipeImage(XFile imageFile) Future~String~
+        +deleteRecipeImage(String imageUrl) Future~void~
+    }
+```
+
+---
+
+### 3. โครงสร้างฐานข้อมูลใน Firebase (Firebase Cloud Firestore Structure)
+ฐานข้อมูลเก็บข้อมูลในรูปแบบ NoSQL Document Database ซึ่งมีโครงสร้างคอลเลกชันหลัก 2 ส่วนคือ `users` และ `recipes`:
+
+```mermaid
+erDiagram
+    %% Entities
+    users ||--o{ favorites : "sub-collection"
+    users ||--o{ checklists : "sub-collection"
+    recipes ||--o{ users : "created by (Reference)"
+
+    users {
+        string uid PK "Document ID"
+        string email
+        string displayName
+        timestamp createdAt
+    }
+
+    favorites {
+        string recipeId PK "Document ID"
+        timestamp addedAt
+    }
+
+    checklists {
+        string recipeId PK "Document ID"
+        timestamp updatedAt
+        array ingredients "List of Ingredient Maps"
+    }
+
+    recipes {
+        string recipeId PK "Document ID (Auto-generated)"
+        string title
+        string description
+        string imageUrl
+        string category
+        int prepTime
+        int cookingTime
+        int servings
+        string difficulty
+        bool isRecommended
+        array ingredients "List of Ingredient Maps"
+        array steps "List of Strings"
+        string createdBy FK "Reference to users/uid"
+        timestamp createdAt
+    }
+```
+
+#### รายละเอียดโครงสร้างฟิลด์และชนิดข้อมูล (Database Schema Details)
+
+##### 1. คอลเลกชัน `users` (ข้อมูลผู้ใช้งาน)
+* **Path**: `/users/{uid}`
+* **รายละเอียด**: เก็บข้อมูลโปรไฟล์พื้นฐานของผู้ใช้งาน โดยเอกสารใช้ ID เดียวกันกับ Firebase Auth UID
+
+| Field Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `uid` | String | รหัสผู้ใช้งาน (ตรงกับ Auth UID) |
+| `email` | String | อีเมลของผู้ใช้งาน |
+| `displayName` | String | ชื่อที่แสดงของหน้าโปรไฟล์ |
+| `createdAt` | Timestamp | วันเวลาที่ลงทะเบียนสมาชิก |
+
+##### 2. ซับคอลเลกชัน `favorites` (รายการสูตรอาหารที่ถูกใจ)
+* **Path**: `/users/{uid}/favorites/{recipeId}`
+* **รายละเอียด**: เก็บประวัติการกดถูกใจสูตรอาหาร โดยใช้ ID ของสูตรอาหาร (`recipeId`) เป็นชื่อเอกสาร เพื่อความสะดวกรวดเร็วในการตรวจสอบสถานะแบบ Real-time
+
+| Field Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `addedAt` | Timestamp | วันเวลาที่กดเพิ่มในรายการโปรด |
+
+##### 3. ซับคอลเลกชัน `checklists` (สถานะการเตรียมวัตถุดิบ)
+* **Path**: `/users/{uid}/checklists/{recipeId}`
+* **รายละเอียด**: เก็บสถานะการทำ Checklist วัตถุดิบแยกตามสูตรอาหารและผู้ใช้ เพื่อให้สอดคล้องกับการทำงานแบบ Real-time และสามารถกลับมาทำต่อได้
+
+| Field Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `updatedAt` | Timestamp | วันเวลาที่อัปเดตสถานะ Checklist ล่าสุด |
+| `ingredients` | Array (Map) | รายการวัตถุดิบและสถานะการติ๊กเตรียม |
+
+> [!NOTE]
+> **โครงสร้างวัตถุดิบใน Map (Ingredient Schema):**
+> * `name` (String): ชื่อวัตถุดิบ (เช่น *ข้าวสวย*)
+> * `amount` (String): ปริมาณ (เช่น *1 ถ้วย*)
+> * `preparation` (String): วิธีเตรียม (เช่น *พักให้เย็น*)
+> * `isChecked` (Boolean): สถานะการเลือกเตรียมวัตถุดิบ (`true` / `false`)
+
+##### 4. คอลเลกชัน `recipes` (สูตรอาหารทั้งหมดในระบบ)
+* **Path**: `/recipes/{recipeId}`
+* **รายละเอียด**: เก็บรายละเอียดและขั้นตอนทั้งหมดของสูตรอาหารที่ถูกป้อนเข้าระบบ
+
+| Field Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `title` | String | ชื่อเมนูอาหาร |
+| `description` | String | คำอธิบายสั้น ๆ ของสูตรอาหาร |
+| `imageUrl` | String | URL ลิงก์รูปภาพสูตรอาหาร |
+| `category` | String | หมวดหมู่อาหาร (เช่น อาหารเช้า, ของหวาน ฯลฯ) |
+| `prepTime` | Number (int) | เวลาที่ใช้ในการเตรียมวัตถุดิบ (นาที) |
+| `cookingTime` | Number (int) | เวลาที่ใช้ในการทำอาหาร (นาที) |
+| `servings` | Number (int) | จำนวนหน่วยบริโภค / เสิร์ฟ |
+| `difficulty` | String | ระดับความยาก (ง่าย, ปานกลาง, ยาก) |
+| `isRecommended` | Boolean | สถานะแนะนำในหน้าแรก (`true` / `false`) |
+| `ingredients` | Array (Map) | รายการวัตถุดิบทั้งหมด (โครงสร้างเหมือนกับ Checklist) |
+| `steps` | Array (String) | รายการขั้นตอนการปรุงตามลำดับ |
+| `createdBy` | String | รหัสผ่านผู้สร้างสูตรอาหาร (ตรงกับ `users/{uid}`) |
+| `createdAt` | Timestamp | วันเวลาที่สร้างสูตรอาหาร |
+
+---
+
 ## ฟีเจอร์หลัก (Features)
 
 ### 1. ระบบเข้าสู่ระบบและสมัครสมาชิก (Authentication)
