@@ -37,6 +37,15 @@ class _PreparationChecklistScreenState
   }
 
   Future<void> _loadSavedChecklist() async {
+    if (_currentUserId.isEmpty) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+      return;
+    }
+
     try {
       final savedStream = _checklistService.getChecklistStream(
         _currentUserId,
@@ -68,11 +77,13 @@ class _PreparationChecklistScreenState
       _ingredients = updatedList;
     });
 
-    await _checklistService.saveChecklist(
-      _currentUserId,
-      widget.recipe.id,
-      updatedList,
-    );
+    if (_currentUserId.isNotEmpty) {
+      await _checklistService.saveChecklist(
+        _currentUserId,
+        widget.recipe.id,
+        updatedList,
+      );
+    }
 
     _checkCompletion();
   }

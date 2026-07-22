@@ -272,6 +272,18 @@ flutter pub get
 flutter run
 ```
 
+### 5. การทดสอบ (Testing)
+
+**รันการทดสอบทั้งหมด (Unit, Widget & Integration Tests):**
+```bash
+flutter test
+```
+
+**รันเฉพาะ Integration Tests ใน `test/integration`:**
+```bash
+flutter test test/integration
+```
+
 ---
 
 ## Firestore Security Rules (ตัวอย่างการตั้งค่าสิทธิ์)

@@ -33,7 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final currentUserId = _authService.currentUser?.uid ?? '';
-      _recipeService.seedSampleRecipes(currentUserId);
+      if (currentUserId.isNotEmpty) {
+        _recipeService.seedSampleRecipes(currentUserId);
+      }
     });
   }
 

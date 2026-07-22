@@ -3,7 +3,7 @@ import '../models/ingredient_model.dart';
 import '../utils/constants.dart';
 
 class ChecklistService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   DocumentReference _getChecklistDoc(String userId, String recipeId) {
     return _firestore
